@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>信用净敞口</title>
+    <script>
+        !function(e){"use strict";var t=document.documentElement,i=Math.min(Math.floor(window.devicePixelRatio),3),n=1/i,a=document.querySelector('meta[name="viewport"]'),r="initial-scale="+n+",width=device-width,viewport-fit=cover";if(a){a.setAttribute("content",r)}else{var o='<meta name="viewport" content="'+r+'"/>';document.write(o)}var c=function(){var e=t.clientWidth||screen.availWidth*i;if(e/i>450){e=450*i}var n=e/750*100;t.style.fontSize=n+"px",t.setAttribute("data-dpr",i)};c(),window.addEventListener("resize",c)}()
+    </script>
+    <!-- DNS 预处理-->
+    <link rel="dns-prefetch" href=""/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, address=no"/>
+    <link rel="icon" href="/common/images/favicon.ico" th:href="@{/common/images/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/common/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" href="common/css/base.css" th:href="@{/common/css/base.css}" />
+    <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+    <script src="common/js/vue.min.js" th:src="@{/common/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        var ctx = /*[[@{/}]]*/;
+    </script>
+</head>
+
+<body>
+<div id="app" v-cloak="">
+    <nav><a th:href="@{/api/main}" class="back clearfix"><i class="fa fa-angle-left pull-left"></i>返回上级</a>行情一览</nav>
+    <div class="data-up-unit clearfix">
+        <span class="pull-left"><i class="fa fa-calendar"></i>数据更新时间: {{ data_date }}</span>
+        <span class="pull-right">单位：万吨/亿元</span>
+    </div>
+    <div class="block-17"></div>
+    <div class="table-list thirdly">
+        <table>
+            <thead>
+            <tr>
+                <th width="13%">品类</th>
+                <th width="13%">交易所</th>
+                <th width="15%">交易品种</th>
+                <th width="10%">收盘价</th>
+                <th width="15%">每日涨幅%</th>
+                <th width="17%">3日涨跌幅%</th>
+                <th width="17%">5日涨跌幅%</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in list">
+            <tr>
+                <td class="corp-name">{{item.cdCatName2 }}</td>
+                <td class="corp-name">{{item.exChange }}</td>
+                <td>{{item.cdName1 }}</td>
+                <td>{{item.closePrice }}</td>
+                <td v-html="pctChange1d(item.pctChange1d)"></td>
+                <td v-html="pctChange3d(item.pctChange3d)"></td>
+                <td v-html="pctChange5d(item.pctChange5d)"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tips"></div>
+    <img th:src="@{/common/images/loading-0.gif}" class="ajax-loading">
+</div>
+<script th:src="@{/common/js/zepto.min.js}" src="common/js/zepto.min.js"></script>
+<script th:src="@{/plugin/js/echarts.min.js}" src="plugin/js/echarts.min.js"></script>
+<script th:src="@{/common/js/utils.js}" src="common/js/utils.js"></script>
+<script th:src="@{/js/xdata/pct_change.js}" src="js/xdata/pct_change.js"></script>
+</body>
+
+</html>

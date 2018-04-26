@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>集团分品类头寸盈亏</title>
+    <script>
+        !function(e){"use strict";var t=document.documentElement,i=Math.min(Math.floor(window.devicePixelRatio),3),n=1/i,a=document.querySelector('meta[name="viewport"]'),r="initial-scale="+n+",width=device-width,viewport-fit=cover";if(a){a.setAttribute("content",r)}else{var o='<meta name="viewport" content="'+r+'"/>';document.write(o)}var c=function(){var e=t.clientWidth||screen.availWidth*i;if(e/i>450){e=450*i}var n=e/750*100;t.style.fontSize=n+"px",t.setAttribute("data-dpr",i)};c(),window.addEventListener("resize",c)}()
+    </script>
+    <!-- DNS 预处理-->
+    <link rel="dns-prefetch" href=""/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, address=no"/>
+    <link rel="icon" href="/common/images/favicon.ico" th:href="@{/common/images/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/common/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" href="common/css/base.css" th:href="@{/common/css/base.css}" />
+    <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+    <script src="common/js/vue.min.js" th:src="@{/common/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        var ctx = /*[[@{/}]]*/;
+    </script>
+</head>
+
+<body>
+<div id="app" class="credit_overdue" v-cloak="">
+    <nav><a th:href="@{/api/main}" class="back clearfix"><i class="fa fa-angle-left pull-left"></i>返回上级</a>集团分品类头寸盈亏</nav>
+    <div class="data-up-unit clearfix">
+        <span class="pull-left"><i class="fa fa-calendar"></i>数据更新时间: {{ data_date }}</span>
+        <span class="pull-right">单位：万吨/亿元</span>
+    </div>
+    <div class="block-17"></div>
+    <div class="wrap">
+        <div class="box clearfix">
+            <div class="table-list list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th rowspan="2" class="corp-name" width="28%">品类/品种</th>
+                        <th colspan="5">敞口</th>
+                    </tr>
+                    <tr>
+                        <th width="18%">期货</th>
+                        <th width="18%">现货</th>
+                        <th width="18%">总敞口</th>
+                        <th colspan="2" width="18%">Δ敞口</th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="item in openList">
+                    <tr>
+                        <td>{{item.cdCatName}}</td>
+                        <td>{{item.pulpFuturesPosition }}</td>
+                        <td>{{item.pulpSpotPosition }}</td>
+                        <td>{{item.pulpTotalPosition }}</td>
+                        <td>
+                            <span v-if="item.deltaStatus === 'flat'" class="rate-gray arrow flat"></span>
+                            <span v-else-if="item.deltaStatus === 'up'" class="rate-gray arrow upg"></span>
+                            <span v-else="item.deltaStatus === 'down'" class="rate-gray arrow downg"></span>
+                        </td>
+                        <td>{{item.delta }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-list list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th rowspan="2" class="corp-name" width="28%">品类/品种</th>
+                        <th colspan="5">盈亏</th>
+                    </tr>
+                    <tr>
+                        <th width="18%">YTD期货</th>
+                        <th width="18%">YTD现货</th>
+                        <th width="18%">YTD整体</th>
+                        <th colspan="2" width="18%">Δ盈亏</th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="item in pnlList">
+                    <tr>
+                        <td>{{item.cdCatName}}</td>
+                        <td>{{item.futuresAllPnlAmt }}</td>
+                        <td>{{item.spotAllPnlAmt }}</td>
+                        <td>{{item.allPnlAmt }}</td>
+                        <td>
+                            <span v-if="item.deltaStatus === 'flat'" class="arrow flat"></span>
+                            <span v-else-if="item.deltaStatus === 'up'" class="arrow up"></span>
+                            <span v-else="item.deltaStatus === 'down'" class="arrow down"></span>
+                        </td>
+                        <td>{{item.delta }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="dots">
+            <ul class="clearfix">
+                <li class="active"></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+    <div class="tips"></div>
+    <img th:src="@{/common/images/loading-0.gif}" class="ajax-loading">
+</div>
+<script th:src="@{/common/js/zepto.min.js}" src="common/js/zepto.min.js"></script>
+<script th:src="@{/plugin/js/echarts.min.js}" src="plugin/js/echarts.min.js"></script>
+<script th:src="@{/common/js/utils.js}" src="common/js/utils.js"></script>
+<script th:src="@{/js/market/pnl.js}" src="js/market/pnl.js"></script>
+</body>
+
+</html>

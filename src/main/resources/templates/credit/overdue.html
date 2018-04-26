@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>信用逾期情况</title>
+    <script>
+        !function(e){"use strict";var t=document.documentElement,i=Math.min(Math.floor(window.devicePixelRatio),3),n=1/i,a=document.querySelector('meta[name="viewport"]'),r="initial-scale="+n+",width=device-width,viewport-fit=cover";if(a){a.setAttribute("content",r)}else{var o='<meta name="viewport" content="'+r+'"/>';document.write(o)}var c=function(){var e=t.clientWidth||screen.availWidth*i;if(e/i>450){e=450*i}var n=e/750*100;t.style.fontSize=n+"px",t.setAttribute("data-dpr",i)};c(),window.addEventListener("resize",c)}()
+    </script>
+    <!-- DNS 预处理-->
+    <link rel="dns-prefetch" href=""/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, address=no"/>
+    <link rel="icon" href="/common/images/favicon.ico" th:href="@{/common/images/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/common/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" href="common/css/base.css" th:href="@{/common/css/base.css}" />
+    <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+    <script src="common/js/vue.min.js" th:src="@{/common/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+		var ctx = /*[[@{/}]]*/;
+	</script>
+</head>
+
+<body>
+<div id="app" class="credit_overdue" v-cloak="">
+    <nav><a th:href="@{/api/main}" class="back clearfix"><i class="fa fa-angle-left pull-left"></i>返回上级</a>信用逾期情况</nav>
+    <div class="data-up-unit clearfix">
+        <span class="pull-left"><i class="fa fa-calendar"></i>数据更新时间: {{ data_date }}</span>
+        <span class="pull-right">单位：万元</span>
+    </div>
+    <div class="block-17"></div>
+    <div class="chart" id="ar-chart" style="height: 4.5rem;"></div>
+    <div class="panel">
+        <span class="title">赊销逾期分专业化公司</span>
+    </div>
+    <div class="table-list">
+        <table>
+            <thead>
+            <tr>
+                <th>Corp</th>
+                <th>&lt;30天</th>
+                <th>30-90天</th>
+                <th>90-180天</th>
+                <th>&gt;180天</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in ar_tableList">
+            <tr>
+                <td>{{item.corpName}}</td>
+                <td>{{item.arDueAttAmt }}</td>
+                <td>{{item.arDueSecAmt }}</td>
+                <td>{{item.arDueSusAmt }}</td>
+                <td>{{item.arDueLossAmt }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="block-17"></div>
+    <div class="chart" id="prepay-chart" style="height: 4.5rem;"></div>
+    <div class="panel">
+        <span class="title">预付逾期分专业化公司</span>
+    </div>
+    <div class="table-list">
+        <table>
+            <thead>
+            <tr>
+                <th>Corp</th>
+                <th>&lt;10天</th>
+                <th>10-30天</th>
+                <th>&gt;30天</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in prepay_tableList">
+            <tr>
+                <td>{{item.corpName}}</td>
+                <td>{{item.purDueAttAmt }}</td>
+                <td>{{item.purDueSecAmt }}</td>
+                <td>{{item.purDueSusAmt }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tips"></div>
+    <img th:src="@{/common/images/loading-0.gif}" class="ajax-loading">
+</div>
+<script th:src="@{/common/js/zepto.min.js}" src="common/js/zepto.min.js"></script>
+<script th:src="@{/plugin/js/echarts.min.js}" src="plugin/js/echarts.min.js"></script>
+<script th:src="@{/common/js/utils.js}" src="common/js/utils.js"></script>
+<script th:src="@{/js/credit/overdue.js}" src="js/credit/overdue.js"></script>
+</body>
+
+</html>

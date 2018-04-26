@@ -1,0 +1,46 @@
+info:
+  name: crp-app-server
+
+server:
+    port: 8080
+    context-path: /
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: crp-app-server
+  http:
+    encoding.charset: UTF-8
+    encoding.force: true
+  aop:
+    proxy-target-class: true
+  thymeleaf:
+    mode: LEGACYHTML5
+  cache:
+    type: redis
+      
+logging:
+  config: classpath:config/logback.xml
+
+endpoints:
+  enabled: false
+  
+security:
+  basic:
+    enabled: false
+
+#mybatis
+mybatis:
+    mapper-locations: classpath*:/mapper/**/*.xml
+
+mapper:
+    mappers:
+        - com.dossp.common.mybatis.MyBaseMapper
+    identity: MYSQL
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

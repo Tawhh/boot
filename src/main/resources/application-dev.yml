@@ -1,0 +1,67 @@
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        druid:
+          crp:
+              url: jdbc:mysql://10.6.46.204:3306/crp?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&useSSL=false
+              username: crp
+              password: '%Crp3.1415926'
+              initial-size: 5
+              max-active: 10
+              min-idle: 5
+              max-wait: 60000
+              time-between-eviction-runs-millis: 60000
+              min-evictable-idle-time-millis: 300000
+              validation-query: SELECT x
+              test-while-idle: true
+              test-on-borrow: true
+              test-on-return: false
+              stat-view-servlet:
+                  enabled: false
+  
+          crp_quant:
+              url: jdbc:mysql://10.6.46.206:3306/crp_quant?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&useSSL=false
+              username: crp_quant
+              password: '%Crp_quant123456'
+              initial-size: 5
+              max-active: 10
+              min-idle: 5
+              max-wait: 60000
+              time-between-eviction-runs-millis: 60000
+              min-evictable-idle-time-millis: 300000
+              validation-query: SELECT x
+              test-while-idle: true
+              test-on-borrow: true
+              test-on-return: false
+              stat-view-servlet:
+                  enabled: false
+
+          crp_portal:
+              url: jdbc:mysql://10.6.46.204:3306/crp_portal?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&useSSL=false
+              username: crp_portal
+              password: '%Crp_portal123456'
+              initial-size: 5
+              max-active: 10
+              min-idle: 5
+              max-wait: 60000
+              time-between-eviction-runs-millis: 60000
+              min-evictable-idle-time-millis: 300000
+              validation-query: SELECT x
+              test-while-idle: true
+              test-on-borrow: true
+              test-on-return: false
+              stat-view-servlet:
+                  enabled: false
+
+    session:
+        store-type: redis
+    redis:
+      database: 1
+      password: redis
+      sentinel:
+        master: mymaster
+        nodes: 10.6.46.215:26379
+      pool:
+        max-active: 10
+        min-idle: 2

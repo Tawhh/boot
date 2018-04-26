@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dossp.crp.market.pnl.mapper.MarketPnlMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.dossp.crp.market.pnl.model.MarketPnlModel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="pulp_spot_position" property="pulpSpotPosition" jdbcType="DECIMAL"/>
+        <result column="soy_bean_spot_position" property="soyBeanSpotPosition" jdbcType="DECIMAL"/>
+        <result column="vegetable_spot_position" property="vegetableSpotPosition" jdbcType="DECIMAL"/>
+        <result column="palm_spot_position" property="palmSpotPosition" jdbcType="DECIMAL"/>
+        <result column="oil_seed_spot_position" property="oilSeedSpotPosition" jdbcType="DECIMAL"/>
+        <result column="corn_spot_position" property="cornSpotPosition" jdbcType="DECIMAL"/>
+        <result column="corn_starch_spot_position" property="cornStarchSpotPosition" jdbcType="DECIMAL"/>
+        <result column="wheat_spot_position" property="wheatSpotPosition" jdbcType="DECIMAL"/>
+        <result column="sugar_spot_position" property="sugarSpotPosition" jdbcType="DECIMAL"/>
+        <result column="cotton_spot_position" property="cottonSpotPosition" jdbcType="DECIMAL"/>
+        <result column="rice_spot_position" property="riceSpotPosition" jdbcType="DECIMAL"/>
+        <result column="pulp_futures_position" property="pulpFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="soy_bean_futures_position" property="soyBeanFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="vegetable_futures_position" property="vegetableFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="palm_futures_position" property="palmFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="oil_seed_futures_position" property="oilSeedFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="corn_futures_position" property="cornFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="corn_starch_futures_position" property="cornStarchFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="wheat_futures_position" property="wheatFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="sugar_futures_position" property="sugarFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="cotton_futures_position" property="cottonFuturesPosition" jdbcType="DECIMAL"/>
+        <result column="rice_futures_position" property="riceFuturesPosition" jdbcType="DECIMAL"/>
+
+        <result column="pulp_total_position" property="pulpTotalPosition" jdbcType="DECIMAL"/>
+        <result column="soy_bean_total_position" property="soyBeanTotalPosition" jdbcType="DECIMAL"/>
+        <result column="vegetable_total_position" property="vegetableTotalPosition" jdbcType="DECIMAL"/>
+        <result column="palm_total_position" property="palmTotalPosition" jdbcType="DECIMAL"/>
+        <result column="oil_seed_total_position" property="oilSeedTotalPosition" jdbcType="DECIMAL"/>
+        <result column="corn_total_position" property="cornTotalPosition" jdbcType="DECIMAL"/>
+        <result column="corn_starch_total_position" property="cornStarchTotalPosition" jdbcType="DECIMAL"/>
+        <result column="wheat_total_position" property="wheatTotalPosition" jdbcType="DECIMAL"/>
+        <result column="sugar_total_position" property="sugarTotalPosition" jdbcType="DECIMAL"/>
+        <result column="cotton_total_position" property="cottonTotalPosition" jdbcType="DECIMAL"/>
+        <result column="rice_total_position" property="riceTotalPosition" jdbcType="DECIMAL"/>
+        
+        <result column="all_pnl_amt" property="allPnlAmt" jdbcType="VARCHAR" />
+        <result column="cd_name" property="cdName" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="getData" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        round(ifnull(sum(s.pulp_spot_position),0.00)+ifnull(sum(s.pulp_futures_position)/10000,0.00),2) AS pulp_total_position,
+        round(ifnull(sum(s.soy_bean_spot_position),0.00)+ifnull(sum(s.soy_bean_futures_position)/10000,0.00),2) AS
+        soy_bean_total_position,
+        round(ifnull(sum(s.vegetable_spot_position),0.00)+ifnull(sum(s.vegetable_futures_position)/10000,0.00),2) AS
+        vegetable_total_position,
+        round(ifnull(sum(s.palm_spot_position),0.00)+ifnull(sum(s.palm_futures_position)/10000,0.00),2) AS palm_total_position,
+        round(ifnull(sum(s.oil_seed_spot_position),0.00)+ifnull(sum(s.oil_seed_futures_position)/10000,0.00),2) AS oil_seed_total_position,
+        round(ifnull(sum(s.corn_spot_position),0.00)+ifnull(sum(s.corn_futures_position)/10000,0.00),2) AS corn_total_position,
+        round(ifnull(sum(s.corn_starch_spot_position),0.00)+ifnull(sum(s.corn_starch_futures_position)/10000,0.00),2) AS
+        corn_starch_total_position,
+        round(ifnull(sum(s.wheat_spot_position),0.00)+ifnull(sum(s.wheat_futures_position)/10000,0.00),2) AS wheat_total_position,
+        round(ifnull(sum(s.sugar_spot_position),0.00)+ifnull(sum(s.sugar_futures_position)/10000,0.00),2) AS sugar_total_position,
+        round(ifnull(sum(s.cotton_spot_position),0.00)+ifnull(sum(s.cotton_futures_position)/10000,0.00),2) AS cotton_total_position,
+        round(ifnull(sum(s.rice_spot_position),0.00) +ifnull(sum(s.rice_futures_position)/10000,0.00),2) AS rice_total_position,
+        round(sum(s.pulp_spot_position),2) AS pulp_spot_position,
+        round(sum(s.soy_bean_spot_position),2) AS soy_bean_spot_position,
+        round(sum(s.vegetable_spot_position),2) AS vegetable_spot_position,
+        round(sum(s.palm_spot_position),2) AS palm_spot_position,
+        round(sum(s.oil_seed_spot_position),2) AS oil_seed_spot_position,
+        round(sum(s.corn_spot_position),2) AS corn_spot_position,
+        round(sum(
+        s.corn_starch_spot_position
+        ),2) AS corn_starch_spot_position,
+        round(sum(s.wheat_spot_position),2) AS wheat_spot_position,
+        round(sum(s.sugar_spot_position),2) AS sugar_spot_position,
+        round(sum(s.cotton_spot_position),2) AS cotton_spot_position,
+        round(ifnull(sum(s.rice_spot_position),0.00),2) AS rice_spot_position,
+        round(sum(s.pulp_futures_position)/10000,2) AS pulp_futures_position,
+        round(sum(
+        s.soy_bean_futures_position
+        )/10000,2) AS soy_bean_futures_position,
+        round(sum(
+        s.vegetable_futures_position
+        )/10000,2) AS vegetable_futures_position,
+        round(sum(s.palm_futures_position)/10000,2) AS palm_futures_position,
+        round(sum(
+        s.oil_seed_futures_position
+        )/10000,2) AS oil_seed_futures_position,
+        round(sum(s.corn_futures_position)/10000,2) AS corn_futures_position,
+        round(sum(
+        s.corn_starch_futures_position
+        )/10000,2) AS corn_starch_futures_position,
+        round(sum(s.wheat_futures_position)/10000,2) AS wheat_futures_position,
+        round(sum(s.sugar_futures_position)/10000,2) AS sugar_futures_position,
+        round(sum(s.cotton_futures_position)/10000,2) AS cotton_futures_position,
+        round(ifnull(sum(s.rice_futures_position)/10000,0.00),2) AS rice_futures_position
+        FROM
+        (
+        SELECT
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10012'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS pulp_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '150700' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS soy_bean_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151400' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS vegetable_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151100' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS palm_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10024'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS oil_seed_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100500' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS corn_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '110812' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS corn_starch_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100100' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS wheat_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10020'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS sugar_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '520000' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS cotton_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = '100610'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS rice_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10012'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS pulp_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '150700' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS soy_bean_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151400' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS vegetable_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151100' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS palm_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10024'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS oil_seed_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100500' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS corn_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '110812' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS corn_starch_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100100' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS wheat_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10020'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS sugar_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '520000' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS cotton_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = '100610'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS rice_spot_position
+        FROM
+        report_total_all t
+        <where>
+            t.corp_code = 'C1999'
+            <if test="_parameter!=null and _parameter!=''">
+                and t.trade_date=#{_parameter}
+            </if>
+        </where>
+        ) s
+    </select>
+    <select id="getMaxDate"  resultType="java.lang.String">
+		select max(t.trade_date) from report_total_all t
+    </select>
+    <select id="getLastDayData" parameterType="java.lang.String" resultMap="BaseResultMap">
+		SELECT
+        round(ifnull(sum(s.pulp_spot_position),0.00)+ifnull(sum(s.pulp_futures_position)/10000,0.00),2) AS pulp_total_position,
+        round(ifnull(sum(s.soy_bean_spot_position),0.00)+ifnull(sum(s.soy_bean_futures_position)/10000,0.00),2) AS
+        soy_bean_total_position,
+        round(ifnull(sum(s.vegetable_spot_position),0.00)+ifnull(sum(s.vegetable_futures_position)/10000,0.00),2) AS
+        vegetable_total_position,
+        round(ifnull(sum(s.palm_spot_position),0.00)+ifnull(sum(s.palm_futures_position)/10000,0.00),2) AS palm_total_position,
+        round(ifnull(sum(s.oil_seed_spot_position),0.00)+ifnull(sum(s.oil_seed_futures_position)/10000,0.00),2) AS oil_seed_total_position,
+        round(ifnull(sum(s.corn_spot_position),0.00)+ifnull(sum(s.corn_futures_position)/10000,0.00),2) AS corn_total_position,
+        round(ifnull(sum(s.corn_starch_spot_position),0.00)+ifnull(sum(s.corn_starch_futures_position)/10000,0.00),2) AS
+        corn_starch_total_position,
+        round(ifnull(sum(s.wheat_spot_position),0.00)+ifnull(sum(s.wheat_futures_position)/10000,0.00),2) AS wheat_total_position,
+        round(ifnull(sum(s.sugar_spot_position),0.00)+ifnull(sum(s.sugar_futures_position)/10000,0.00),2) AS sugar_total_position,
+        round(ifnull(sum(s.cotton_spot_position),0.00)+ifnull(sum(s.cotton_futures_position)/10000,0.00),2) AS cotton_total_position,
+        round(ifnull(sum(s.rice_spot_position),0.00) +ifnull(sum(s.rice_futures_position)/10000,0.00),2) AS rice_total_position,
+        round(sum(s.pulp_spot_position),2) AS pulp_spot_position,
+        round(sum(s.soy_bean_spot_position),2) AS soy_bean_spot_position,
+        round(sum(s.vegetable_spot_position),2) AS vegetable_spot_position,
+        round(sum(s.palm_spot_position),2) AS palm_spot_position,
+        round(sum(s.oil_seed_spot_position),2) AS oil_seed_spot_position,
+        round(sum(s.corn_spot_position),2) AS corn_spot_position,
+        round(sum(
+        s.corn_starch_spot_position
+        ),2) AS corn_starch_spot_position,
+        round(sum(s.wheat_spot_position),2) AS wheat_spot_position,
+        round(sum(s.sugar_spot_position),2) AS sugar_spot_position,
+        round(sum(s.cotton_spot_position),2) AS cotton_spot_position,
+        round(ifnull(sum(s.rice_spot_position),0.00),2) AS rice_spot_position,
+        round(sum(s.pulp_futures_position)/10000,2) AS pulp_futures_position,
+        round(sum(
+        s.soy_bean_futures_position
+        )/10000,2) AS soy_bean_futures_position,
+        round(sum(
+        s.vegetable_futures_position
+        )/10000,2) AS vegetable_futures_position,
+        round(sum(s.palm_futures_position)/10000,2) AS palm_futures_position,
+        round(sum(
+        s.oil_seed_futures_position
+        )/10000,2) AS oil_seed_futures_position,
+        round(sum(s.corn_futures_position)/10000,2) AS corn_futures_position,
+        round(sum(
+        s.corn_starch_futures_position
+        )/10000,2) AS corn_starch_futures_position,
+        round(sum(s.wheat_futures_position)/10000,2) AS wheat_futures_position,
+        round(sum(s.sugar_futures_position)/10000,2) AS sugar_futures_position,
+        round(sum(s.cotton_futures_position)/10000,2) AS cotton_futures_position,
+        round(ifnull(sum(s.rice_futures_position)/10000,0.00),2) AS rice_futures_position
+        FROM
+        (
+        SELECT
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10012'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS pulp_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '150700' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS soy_bean_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151400' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS vegetable_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151100' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS palm_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10024'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS oil_seed_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100500' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS corn_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '110812' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS corn_starch_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100100' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS wheat_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10020'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS sugar_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '520000' THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS cotton_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = '100610'
+        ) THEN
+        t.futures_net_position
+        END
+        ),
+        2
+        ) AS rice_futures_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10012'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS pulp_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '150700' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS soy_bean_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151400' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS vegetable_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '151100' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS palm_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10024'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS oil_seed_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100500' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS corn_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '110812' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS corn_starch_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '100100' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS wheat_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = 'A10020'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS sugar_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 = '520000' THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS cotton_spot_position,
+        round(
+        sum(
+        CASE
+        WHEN t.cd_cat_code2 IN (
+        SELECT
+        s.cd_code
+        FROM
+        mdm_cd_daily s
+        WHERE
+        s.p_cd_code = '100610'
+        ) THEN
+        t.spot_exposure
+        END
+        ),
+        2
+        ) AS rice_spot_position
+        FROM
+        report_total_all t
+        <where>
+            t.corp_code = 'C1999'
+            <if test="_parameter!=null and _parameter!=''">
+                <![CDATA[and t.trade_date=(select max(t.trade_date) as trade_date from report_total_all t where t.trade_date < #{_parameter})]]>
+            </if>
+        </where>
+        ) s
+  	</select>
+</mapper>

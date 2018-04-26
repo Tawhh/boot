@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dossp.crp.xdata.mapper.CreditXdataMapper" >
+
+  <resultMap id="BaseResultMap" type="com.dossp.crp.xdata.model.CreditXdataModel" >
+    <result column="data_date" property="dataDate" jdbcType="VARCHAR" />
+    <result column="exchange_price_type" property="exChange" jdbcType="VARCHAR" />
+    <result column="cd_cat_code2" property="cdCatCode2" jdbcType="VARCHAR" />
+    <result column="cd_cat_name2" property="cdCatName2" jdbcType="VARCHAR" />
+    <result column="cd_code1" property="cdCode1" jdbcType="VARCHAR" />
+    <result column="cd_name1" property="cdName1" jdbcType="VARCHAR" />
+    <result column="close_price" property="closePrice" jdbcType="DECIMAL" />
+    <result column="pct_change_1d" property="pctChange1d" jdbcType="DECIMAL" />
+    <result column="pct_change_3d" property="pctChange3d" jdbcType="DECIMAL" />
+    <result column="pct_change_5d" property="pctChange5d" jdbcType="DECIMAL" />
+    <result column="pct_change_20d" property="pctChange20d" jdbcType="DECIMAL" />
+    <result column="pct_change_year" property="pctChangeYear" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <select id="getData" resultMap="BaseResultMap">
+	 	select v.* 
+	 	from v_report_xdata_pct_futures_spot v
+	 	where v.data_date = 
+	 	(
+	 		select max(data_date) from v_report_xdata_pct_futures_spot
+	 	)
+	 	ORDER BY v.cd_code1,v.exchange_price_type
+  </select>
+  
+</mapper>

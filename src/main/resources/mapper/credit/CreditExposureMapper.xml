@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dossp.crp.credit.exposure.mapper.CreditExposureMapper">
+
+	<resultMap id="creditExposureMap" type="com.dossp.crp.credit.exposure.mode.CreditExposureModel">
+	
+		<result property="dataDate" column="data_date" jdbcType="VARCHAR"/>
+		<result property="corpName" column="corp_name" jdbcType="VARCHAR"/>
+        <result property="arNetAmt" column="ar_net_amt" jdbcType="VARCHAR"/>
+        <result property="prepayNetAmt" column="prepay_net_amt" jdbcType="VARCHAR"/>
+        <result property="totalNetAmt" column="total_net_amt" jdbcType="VARCHAR"/>
+        <result property="arDeltaNetAmt" column="ar_delta_net_amt" jdbcType="VARCHAR"/>
+        <result property="prepayDeltaNetAmt" column="prepay_delta_net_amt" jdbcType="VARCHAR"/>
+        <result property="totalDeltaNetAmt" column="total_delta_net_amt" jdbcType="VARCHAR"/>
+        
+        <result property="arNetIndexAmt" column="ar_index_amt" jdbcType="VARCHAR"/>
+        <result property="prepayNetIndexAmt" column="prepay_index_amt" jdbcType="VARCHAR"/>
+        <result property="arNetIndexRate" column="ar_index_rate" jdbcType="VARCHAR"/>
+        <result property="prepayNetIndexRate" column="prepay_index_rate" jdbcType="VARCHAR"/>
+        
+        <result property="arTurnover" column="ar_turnover" jdbcType="VARCHAR"/>
+        <result property="arTurnoverDelta" column="ar_turnover_delta" jdbcType="VARCHAR"/>
+        <result property="prepayTurnover" column="prepay_turnover" jdbcType="VARCHAR"/>
+        <result property="prepayTurnoverDelta" column="prepay_turnover_delta" jdbcType="VARCHAR"/>
+	
+	</resultMap>
+
+
+
+	<select id="getGroupData" resultMap="creditExposureMap">
+	
+		SELECT
+			t.submit_date as data_date,
+			round(sum(t.ar_net_total_amt) / 10000, 1) as ar_net_amt,
+			round(sum(t.pur_net_total_amt) / 10000, 1) as prepay_net_amt,
+			round(sum(t.ar_net_total_amt + t.pur_net_total_amt) / 10000, 1) as total_net_amt,
+			round(sum(t.ar_delta_net_total_amt) / 10000, 1) as ar_delta_net_amt,
+			round(sum(t.pur_delta_net_total_amt) / 10000, 1) as prepay_delta_net_amt,
+			round(sum(t.ar_delta_net_total_amt + t.pur_delta_net_total_amt) / 10000, 1) as total_delta_net_amt
+		FROM
+			report_credit t
+		WHERE t.type = '外部' and t.corp_code = t.unit_code
+			AND t.submit_date = 
+		(
+			SELECT max(i.submit_date) FROM report_credit i
+		)
+		GROUP BY
+			t.submit_date
+	
+	</select>
+	
+	<select id="getCorpData" resultMap="creditExposureMap">
+	
+		SELECT
+			t.submit_date as data_date,
+			replace(t.corp_name, '整体', '') as corp_name,
+			round(t.ar_net_total_amt / 10000, 1) as ar_net_amt,
+			round(t.pur_net_total_amt / 10000, 1) as prepay_net_amt,
+			round(t.ar_delta_net_total_amt / 10000, 1) as ar_delta_net_amt,
+			round(t.pur_delta_net_total_amt / 10000, 1) as prepay_delta_net_amt,
+			round(t.net_ar_exposure_amt / 10000, 2) as ar_index_amt,
+			round(t.net_prepay_exposure_amt / 10000, 2) as prepay_index_amt,
+			round(t.ar_net_total_amt / t.net_ar_exposure_amt, 4) as ar_index_rate,
+			round(t.pur_net_total_amt / t.net_prepay_exposure_amt, 4) as prepay_index_rate,
+			round(t.ar_turnover, 1) as ar_turnover,
+			round(t.ar_turnover_mom, 1) as ar_turnover_delta,
+			round(t.pur_turnover, 1) as prepay_turnover,
+			round(t.pur_turnover_mom, 1) as prepay_turnover_delta
+		FROM
+			report_credit t
+		WHERE t.type = '外部' and t.corp_code = t.unit_code
+		AND t.submit_date = 
+		(
+			SELECT max(i.submit_date) FROM report_credit i
+		)
+		GROUP BY
+			t.submit_date, t.corp_name
+		ORDER BY t.seq
+	
+	</select>
+
+</mapper>

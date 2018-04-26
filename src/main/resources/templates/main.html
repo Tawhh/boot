@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>主页</title>
+    <script>
+    !function(e){"use strict";var t=document.documentElement,i=Math.min(Math.floor(window.devicePixelRatio),3),n=1/i,a=document.querySelector('meta[name="viewport"]'),r="initial-scale="+n+",width=device-width,viewport-fit=cover";if(a){a.setAttribute("content",r)}else{var o='<meta name="viewport" content="'+r+'"/>';document.write(o)}var c=function(){var e=t.clientWidth||screen.availWidth*i;if(e/i>450){e=450*i}var n=e/750*100;t.style.fontSize=n+"px",t.setAttribute("data-dpr",i)};c(),window.addEventListener("resize",c)}()
+    </script>
+    <!-- DNS 预处理-->
+    <link rel="dns-prefetch" href=""/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, address=no"/>
+    <link rel="icon" href="/common/images/favicon.ico" th:href="@{/common/images/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/common/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" href="common/css/base.css" th:href="@{/common/css/base.css}" />
+    <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
+    <script src="common/js/vue.min.js" th:src="@{/common/js/vue.min.js}"></script>
+</head>
+
+<body>
+<div id="app" v-cloak="">
+    <div class="tx-info">
+        <span class="tx"></span>
+        <span class="to-day">今天是{{toDay}}</span>
+        <span class="welcome">欢迎使用CRP风险管理系统</span>
+    </div>
+    <div class="lists">
+        <ul>
+            <li>
+                <a th:href="@{/api/credit/exposure/index}">
+                    <span class="cFBC245"><i class="fa fa-globe"></i></span>
+                    <em>信用净敞口</em>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/api/credit/overdue/index}">
+                    <span class="c4CD3AD fs-sx"><i class="fa fa-bar-chart"></i></span>
+                    <em>信用逾期情况</em>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/api/market/pnl/index}">
+                    <span class="c65CCED"><i class="fa fa-pie-chart"></i></span>
+                    <em>集团分品类头寸盈亏</em>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/api/daily/group/index}">
+                    <span class="c31BFF9 fs-sx"><i class="fa fa-ship"></i></span>
+                    <em>集团大宗商品管理日报</em>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/api/market/var/index}">
+                    <span class="c97ABFF fs-sx"><i class="fa fa-area-chart"></i></span>
+                    <em>VaR</em>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/api/xdata/pct_change/index}">
+                    <span class="cFF9490 fs-sx"><i class="fa fa-line-chart"></i></span>
+                    <em>行情一览</em>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!--<div class="tool-bar">-->
+        <!--<div class="block-17"></div>-->
+        <!--<div class="bar">-->
+            <!--<a th:href="@{/}" class="active">-->
+                <!--<i class="fa fa-dashboard"></i>-->
+                <!--<em>功能面板</em>-->
+            <!--</a>-->
+            <!--<a th:href="@{/}">-->
+                <!--<i class="fa fa-cog"></i>-->
+                <!--<em>设置中心</em>-->
+            <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="mask"></div>
+    <div class="tip"></div>
+</div>
+<script th:src="@{/common/js/zepto.min.js}" src="common/js/zepto.min.js"></script>
+<script th:src="@{/common/js/utils.js}" src="common/js/utils.js"></script>
+<script th:src="@{/js/main.js}" src="js/main.js"></script>
+</body>
+
+</html>

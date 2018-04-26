@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>信用净敞口</title>
+    <script>
+        !function(e){"use strict";var t=document.documentElement,i=Math.min(Math.floor(window.devicePixelRatio),3),n=1/i,a=document.querySelector('meta[name="viewport"]'),r="initial-scale="+n+",width=device-width,viewport-fit=cover";if(a){a.setAttribute("content",r)}else{var o='<meta name="viewport" content="'+r+'"/>';document.write(o)}var c=function(){var e=t.clientWidth||screen.availWidth*i;if(e/i>450){e=450*i}var n=e/750*100;t.style.fontSize=n+"px",t.setAttribute("data-dpr",i)};c(),window.addEventListener("resize",c)}()
+    </script>
+    <!-- DNS 预处理-->
+    <link rel="dns-prefetch" href=""/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, address=no"/>
+    <link rel="icon" href="/common/images/favicon.ico" th:href="@{/common/images/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/common/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" href="common/css/base.css" th:href="@{/common/css/base.css}" />
+    <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+    <script src="common/js/vue.min.js" th:src="@{/common/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+        var ctx = /*[[@{/}]]*/;
+    </script>
+</head>
+
+<body>
+<div id="app" v-cloak="">
+    <nav><a th:href="@{/api/main}" class="back clearfix"><i class="fa fa-angle-left pull-left"></i>返回上级</a>集团大宗商品管理日报</nav>
+    <div class="data-up-unit clearfix">
+        <span class="pull-left"><i class="fa fa-calendar"></i>数据更新时间: {{ data_date }}</span>
+        <span class="pull-right">单位：万吨/亿元</span>
+    </div>
+    <div class="block-17"></div>
+    <div class="chart" id="bar-chart"></div>
+    <div class="block-17"></div>
+    <div class="table-list second">
+        <table>
+            <thead>
+            <tr>
+                <th rowspan="2" class="corp-name" width="20%">专业化公司</th>
+                <th colspan="5">盈亏及回撤</th>
+            </tr>
+            <tr>
+                <th width="16%">期货盈亏</th>
+                <th width="16%">现货盈亏</th>
+                <th width="16%">总盈亏</th>
+                <th width="16%">Δ盈亏</th>
+                <th width="16%">回撤</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in pnlRetList">
+            <tr>
+                <td>{{item.corpName }}</td>
+                <td>{{item.futuresPnl }}</td>
+                <td>{{item.spotPnl }}</td>
+                <td>{{item.totalPnl }}</td>
+                <td v-if="item.deltaPnl > 0" class="rate-red">{{item.deltaPnl }}</td>
+                <td v-else-if="item.deltaPnl == 0">{{item.deltaPnl }}</td>
+                <td v-else="item.deltaPnl < 0" class="rate-green">{{item.deltaPnl }}</td>
+                <td>{{item.ret }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="block-17"></div>
+    <div class="table-list second">
+        <table>
+            <thead>
+            <tr>
+                <th rowspan="2" class="corp-name" width="20%">专业化公司</th>
+                <th rowspan="2" class="corp-name" width="15%">品类</th>
+                <th colspan="5">头寸</th>
+            </tr>
+            <tr>
+                <th width="13%">期货敞口</th>
+                <th width="13%">现货敞口</th>
+                <th width="13%">总敞口</th>
+                <th width="13%">Δ敞口</th>
+                <th width="13%">使用率</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in positionList">
+            <tr>
+                <td>{{item.corpName }}</td>
+                <td>{{item.cdName }}</td>
+                <td>{{item.futuresPosition }}</td>
+                <td>{{item.spotPosition }}</td>
+                <td>{{item.totalPosition }}</td>
+                <td v-if="item.deltaPosition > 0" class="rate-red">{{item.deltaPosition }}</td>
+                <td v-else-if="item.deltaPosition == 0">{{item.deltaPosition }}</td>
+                <td v-else="item.deltaPosition < 0" class="rate-green">{{item.deltaPosition }}</td>
+                <td>{{item.rate }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="tips"></div>
+    <img th:src="@{/common/images/loading-0.gif}" class="ajax-loading">
+</div>
+<script th:src="@{/common/js/zepto.min.js}" src="common/js/zepto.min.js"></script>
+<script th:src="@{/plugin/js/echarts.min.js}" src="plugin/js/echarts.min.js"></script>
+<script th:src="@{/common/js/utils.js}" src="common/js/utils.js"></script>
+<script th:src="@{/js/daily/daily.js}" src="js/daily/daily.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>信用净敞口</title>
+    <script>
+    !function(e){"use strict";var t=document.documentElement,i=Math.min(Math.floor(window.devicePixelRatio),3),n=1/i,a=document.querySelector('meta[name="viewport"]'),r="initial-scale="+n+",width=device-width,viewport-fit=cover";if(a){a.setAttribute("content",r)}else{var o='<meta name="viewport" content="'+r+'"/>';document.write(o)}var c=function(){var e=t.clientWidth||screen.availWidth*i;if(e/i>450){e=450*i}var n=e/750*100;t.style.fontSize=n+"px",t.setAttribute("data-dpr",i)};c(),window.addEventListener("resize",c)}()
+    </script>
+    <!-- DNS 预处理-->
+    <link rel="dns-prefetch" href=""/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no, address=no"/>
+    <link rel="icon" href="/common/images/favicon.ico" th:href="@{/common/images/favicon.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" href="common/fonts/font-awesome-4.7.0/css/font-awesome.min.css" th:href="@{/common/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" />
+    <link rel="stylesheet" href="common/css/base.css" th:href="@{/common/css/base.css}" />
+    <link rel="stylesheet" href="css/index.css" th:href="@{/css/index.css}" />
+    <script src="common/js/vue.min.js" th:src="@{/common/js/vue.min.js}"></script>
+    <script type="text/javascript" th:inline="javascript">
+		var ctx = /*[[@{/}]]*/;
+	</script>
+</head>
+
+<body>
+<div id="app" v-cloak="">
+    <nav><a th:href="@{/api/main}" class="back clearfix"><i class="fa fa-angle-left pull-left"></i>返回上级</a>信用净敞口</nav>
+    <div class="data-up-unit clearfix">
+        <span class="pull-left"><i class="fa fa-calendar"></i>数据更新时间: {{ data_date }}</span>
+        <span class="pull-right">单位：亿元</span>
+    </div>
+    <div class="block-17"></div>
+    <div class="panel">
+        <div class="group">
+            <span class="title">集团整体</span>
+            <ul>
+                <li v-for="item in group" v-if="item.index_name == 'group_total'">
+                    <span class="st red">总</span>
+                    <span class="sum">{{ item.index_value }}</span>
+                    <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                    <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                    <span v-else="item.status === 'down'" class="arrow down"></span>
+                    <span class="delta">{{ item.delta }}</span>
+                </li>
+                <li v-for="item in group" v-if="item.index_name == 'group_ar'">
+                    <span class="st green">赊</span>
+                    <span class="sum">{{ item.index_value }}</span>
+                    <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                    <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                    <span v-else="item.status === 'down'" class="arrow down"></span>
+                    <span class="delta">{{ item.delta }}</span>
+                </li>
+                <li v-for="item in group" v-if="item.index_name == 'group_prepay'">
+                    <span class="st purple">预</span>
+                    <span class="sum">{{ item.index_value }}</span>
+                    <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                    <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                    <span v-else="item.status === 'down'" class="arrow down"></span>
+                    <span class="delta">{{ item.delta }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="haa">
+            <div class="churchyard haaco">
+                <span class="title">境内</span>
+                <ul>
+                    <li v-for="item in group" v-if="item.index_name == 'inner_ar'">
+                        <span class="st green">赊</span>
+                        <span class="sum">{{ item.index_value }}</span>
+                        <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                        <span v-else="item.status === 'down'" class="arrow down"></span>
+                        <span class="delta">{{ item.delta }}</span>
+                    </li>
+                    <li v-for="item in group" v-if="item.index_name == 'inner_prepay'">
+                        <span class="st purple">预</span>
+                        <span class="sum">{{ item.index_value }}</span>
+                        <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                        <span v-else="item.status === 'down'" class="arrow down"></span>
+                        <span class="delta">{{ item.delta }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="haaco">
+                <span class="title">境外</span>
+                <ul>
+                    <li v-for="item in group" v-if="item.index_name == 'oversea_ar'">
+                        <span class="st green">赊</span>
+                        <span class="sum">{{ item.index_value }}</span>
+                        <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                        <span v-else="item.status === 'down'" class="arrow down"></span>
+                        <span class="delta">{{ item.delta }}</span>
+                    </li>
+                    <li v-for="item in group" v-if="item.index_name == 'oversea_prepay'">
+                        <span class="st purple">预</span>
+                        <span class="sum">{{ item.index_value }}</span>
+                        <span v-if="item.status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.status === 'up'" class="arrow up"></span>
+                        <span v-else="item.status === 'down'" class="arrow down"></span>
+                        <span class="delta">{{ item.delta }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="chart" id="bar-chart"></div>
+    <div class="block-17"></div>
+    <div class="table-list">
+        <table>
+            <thead>
+            <tr>
+                <th>Corp</th>
+                <th></th>
+                <th>净敞口</th>
+                <th colspan="2">Δ</th>
+                <th>指标占用</th>
+                <th>周转率</th>
+                <th colspan="2">Δ</th>
+            </tr>
+            </thead>
+            <tbody v-for="item in tableList">
+                <tr>
+                    <td rowspan="2" class="corp-name">{{item.corp_name }}</td>
+                    <td>赊</td>
+                    <td>{{item.ar_exposure }}</td>
+                    <td>
+                        <span v-if="item.ar_exposure_status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.ar_exposure_status === 'up'" class="arrow up"></span>
+                        <span v-else="item.ar_exposure_status === 'down'" class="arrow down"></span>
+                    </td>
+                    <td>{{ item.ar_exposure_delta }}</td>
+                    <td v-if="item.ar_index_rate >= 1" class="rate-red">{{ item.ar_index_rate | percent }}</td>
+                    <td v-if="item.ar_index_rate < 1" class="">{{ item.ar_index_rate | percent }}</td>
+                    <td>{{ item.ar_turnover }}</td>
+                    <td>
+                        <span v-if="item.ar_turnover_status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.ar_turnover_status === 'up'" class="arrow up"></span>
+                        <span v-else="item.ar_turnover_status === 'down'" class="arrow down"></span>
+                    </td>
+                    <td>{{ item.ar_turnover_delta }}</td>
+                </tr>
+                <tr>
+                    <td>预</td>
+                    <td>{{item.prepay_exposure }}</td>
+                    <td>
+                        <span v-if="item.prepay_exposure_status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.prepay_exposure_status === 'up'" class="arrow up"></span>
+                        <span v-else="item.prepay_exposure_status === 'down'" class="arrow down"></span>
+                    </td>
+                    <td>{{item.prepay_exposure_delta }}</td>
+                    <td v-if="item.prepay_index_rate >= 1" class="rate-red">{{ item.prepay_index_rate | percent }}</td>
+                    <td v-if="item.prepay_index_rate < 1" class="">{{ item.prepay_index_rate | percent }}</td>
+                    <td>{{item.prepay_turnover }}</td>
+                    <td>
+                        <span v-if="item.prepay_turnover_status === 'flat'" class="arrow flat"></span>
+                        <span v-else-if="item.prepay_turnover_status === 'up'" class="arrow up"></span>
+                        <span v-else="item.prepay_turnover_status === 'down'" class="arrow down"></span>
+                    </td>
+                    <td>{{item.prepay_turnover_delta }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mask"></div>
+    <div class="tip"></div>
+</div>
+<script th:src="@{/common/js/zepto.min.js}" src="common/js/zepto.min.js"></script>
+<script th:src="@{/plugin/js/echarts.min.js}" src="plugin/js/echarts.min.js"></script>
+<script th:src="@{/common/js/utils.js}" src="common/js/utils.js"></script>
+<script th:src="@{/js/credit/exposure.js}" src="js/credit/index.js"></script>
+</body>
+
+</html>
