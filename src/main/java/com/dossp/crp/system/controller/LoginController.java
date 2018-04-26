@@ -134,7 +134,7 @@ public class LoginController {
                     msg = "用户已禁用";
                 } else if ("1".equals(user.getStatus())) {
                     if (SpringEncryptUtil.match(password, user.getPassword())) {
-                        flag = systemService.isHasPermissionToLogin(user);
+                        /*flag = systemService.isHasPermissionToLogin(user);*/
                         if (flag) {
                             flag = true;
                             // 将用户放入session中去
